@@ -18,7 +18,7 @@ namespace Telegram.Library.Models
         /// Источник ошибки, должен быть не указан
         /// </summary>
         [Required]
-        public string Source  { get; set; }
+        public string Source { get; set; }
 
         /// <summary>
         /// Тип элемента Telegram Passport пользователя, который имеет проблему

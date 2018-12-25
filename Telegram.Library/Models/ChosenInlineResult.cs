@@ -6,7 +6,7 @@ using System.Text;
 namespace Telegram.Library.Models
 {
     /// <summary>
-    /// Представляет результат <see cref="InlineQuery"/>, который был выбран <see cref="User"/> и отправлен его партнеру по чату.
+    /// Представляет <see href="https://core.telegram.org/bots/api#inlinequeryresult">результат</see>, который был выбран <see cref="User"/> и отправлен его партнеру по чату.
     /// <see href="https://core.telegram.org/bots/api#choseninlineresult"/>
     /// </summary>
     public class ChosenInlineResult

@@ -6,7 +6,7 @@ using System.Text;
 namespace Telegram.Library.Models
 {
     /// <summary>
-    /// This object represents a video file.
+    /// Видео файл.
     /// <see href="https://core.telegram.org/bots/api#video"/>
     /// </summary>
     public class Video

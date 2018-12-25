@@ -8,7 +8,7 @@ namespace Telegram.Library.Models
     /// <summary>
     /// Этот объект представляет входящий запрос обратного вызова от <see cref="InlineKeyboardButton"/> на встроенной клавиатуре.
     /// Если кнопка, отправившая запрос, была прикреплена к <see cref="Message"/>, отправленного ботом, поле сообщения будет присутствовать. 
-    /// Если кнопка была прикреплена к сообщению, отправленному через бота (во встроенном режиме), поле <see cref="InlineMessageId"/> будет присутствовать.
+    /// Если кнопка была прикреплена к сообщению, отправленному через бота (в <see href="https://core.telegram.org/bots/inline">«inline» режиме</see>), поле <see cref="InlineMessageId"/> будет присутствовать.
     /// Точно будет одно из полей <see cref="Data"/> или <see cref="GameShortName"/>.
     /// <see href="https://core.telegram.org/bots/api#callbackquery"/>
     /// </summary>

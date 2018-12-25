@@ -15,17 +15,17 @@ namespace Telegram.Library.Models
         public long Id { get; set; }
 
         /// <summary>
-        /// Уникальный идентификатор файла большой (640x640) фотографии чата. 
-        /// Этот идентификатор может быть использован только для загрузки фото.
-        /// </summary>
-        [Required]
-        public string BigFileId { get; set; }
-
-        /// <summary>
         /// Уникальный идентификатор файла небольшой (160x160) фотографии чата.
         /// Этот идентификатор может быть использован только для загрузки фото.
         /// </summary>
         [Required]
         public string SmallFileId { get; set; }
+
+        /// <summary>
+        /// Уникальный идентификатор файла большой (640x640) фотографии чата. 
+        /// Этот идентификатор может быть использован только для загрузки фото.
+        /// </summary>
+        [Required]
+        public string BigFileId { get; set; }
     }
 }
