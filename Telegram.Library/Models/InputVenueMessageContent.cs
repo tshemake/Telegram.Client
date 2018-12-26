@@ -9,7 +9,7 @@ namespace Telegram.Library.Models
     /// <see href="https://core.telegram.org/bots/api#inputmessagecontent">Содержимое</see> сообщения места, которое будет отправлено 
     /// в результате встроенного запроса.
     /// </summary>
-    class InputVenueMessageContent
+    class InputVenueMessageContent : InputMessageContent
     {
         /// <summary>
         /// Широта места встречи в градусах

@@ -10,7 +10,7 @@ namespace Telegram.Library.Models
     /// в результате встроенного запроса.
     /// <see href="https://core.telegram.org/bots/api#inputtextmessagecontent"/>
     /// </summary>
-    public class InputTextMessageContent
+    public class InputTextMessageContent : InputMessageContent
     {
         /// <summary>
         /// Текст сообщения для отправки, от 1 до 4096 символов

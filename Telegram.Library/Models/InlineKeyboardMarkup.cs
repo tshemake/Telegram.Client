@@ -14,7 +14,7 @@ namespace Telegram.Library.Models
     /// Это будет работать только в версиях Telegram, выпущенных после 9 апреля 2016 года.
     /// Старые клиенты Telegram будут отображать неподдерживаемое сообщение.
     /// </remarks>
-    class InlineKeyboardMarkup
+    public class InlineKeyboardMarkup
     {
         /// <summary>
         /// Массив рядов кнопок, каждый из которых представлен массивом <see cref="InlineKeyboardButton"/>.

@@ -38,7 +38,9 @@ namespace Telegram.Library.Models
 
         /// <summary>
         /// Необязательный. Дополнительные данные о контакте в виде <see href="https://en.wikipedia.org/wiki/VCard">vCard</see>
+        /// Размером до 2048 байт
         /// </summary>
+        [MaxLength(2048)]
         public string VCard { get; set; }
     }
 }

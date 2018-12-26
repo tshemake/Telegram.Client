@@ -10,7 +10,7 @@ namespace Telegram.Library.Models
     /// которое будет отправлено в результате встроенного запроса.
     /// <see href="https://core.telegram.org/bots/api#inputlocationmessagecontent"/>
     /// </summary>
-    public class InputLocationMessageContent
+    public class InputLocationMessageContent : InputMessageContent
     {
         /// <summary>
         /// Широта местоположения в градусах

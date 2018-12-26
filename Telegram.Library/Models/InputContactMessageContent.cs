@@ -9,7 +9,7 @@ namespace Telegram.Library.Models
     /// <see href="https://core.telegram.org/bots/api#inputmessagecontent">Содержимое</see> контактного сообщения, которое будет отправлено в результате встроенного запроса.
     /// <see href="https://core.telegram.org/bots/api#inputcontactmessagecontent"/>
     /// </summary>
-    public class InputContactMessageContent
+    public class InputContactMessageContent : InputMessageContent
     {
         /// <summary>
         /// Контактный телефон
