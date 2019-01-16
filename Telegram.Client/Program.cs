@@ -7,6 +7,7 @@ using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using Telegram.Bot;
 
 namespace Telegram.Client
 {
@@ -14,11 +15,53 @@ namespace Telegram.Client
     {
         public static void Main(string[] args)
         {
-            CreateWebHostBuilder(args).Build().Run();
+            var config = new ConfigurationBuilder()
+                 .AddCommandLine(args)
+                 .AddEnvironmentVariables()
+                 .Build();
+            ThrowIfInvalidBotToken(config["BotToken"]);
+            if ((config["SetWebhook"] ?? "false") == "true")
+            {
+                ThrowIfInvalidUrl(config["Webhook"]);
+                var api = new TelegramBotClient(config["BotToken"]);
+                api.SetWebhookAsync(config["Webhook"]).Wait();
+            }
+            else
+            {
+                CreateWebHostBuilder(args).Build().Run();
+            }
         }
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
                 .UseStartup<Startup>();
+
+        public static void ThrowIfInvalidBotToken(string token)
+        {
+            var _token = token ?? throw new ArgumentNullException(nameof(token));
+            string[] parts = _token.Split(':');
+            if (parts.Length > 1 && int.TryParse(parts[0], out int id))
+            {
+                return;
+            }
+
+            throw new ArgumentException(
+                "Invalid format. A valid token looks like \"1234567:4TT8bAc8GHUspu3ERYn-KGcvsvGB9u_n4ddy\".",
+                    nameof(token));
+        }
+
+        public static void ThrowIfInvalidUrl(string url)
+        {
+            try
+            {
+                var u = new Uri(url);
+            }
+            catch (UriFormatException)
+            {
+                throw new ArgumentException(
+                    "Invalid Webhook url",
+                    nameof(url));
+            }
+        }
     }
 }
