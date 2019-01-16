@@ -26,12 +26,12 @@ namespace Telegram.Library
             _sender = new ApiSender(httpClient);
         }
 
-        public TelegramBotClient(string token, IWebProxy webProxy, HttpClient httpClient = null)
+        public TelegramBotClient(string token, IWebProxy webProxy)
         {
             _bot = new Bot();
             _bot.SetToken(token);
 
-            _sender = new ApiSender(webProxy, httpClient);
+            _sender = new ApiSender(webProxy);
         }
 
         public async Task<User> GetMeAsync(CancellationToken cancellationToken) => await SendRequestAsync<User>(new GetMeRequest(), cancellationToken);

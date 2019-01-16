@@ -14,19 +14,14 @@ namespace Telegram.Library
     {
         private readonly HttpClient _httpClient;
 
-        public ApiSender(HttpClient httpClient = null)
+        public ApiSender(IWebProxy webProxy)
+            : this(HttpClientHelperFactory.Instance.CreateHttpClientHelper(webProxy).CreateHttpClient())
         {
-            _httpClient = httpClient ?? new HttpClient();
         }
 
-        public ApiSender(IWebProxy webProxy, HttpClient httpClient = null)
+        public ApiSender(HttpClient httpClient = null)
         {
-           var httpClientHander = new HttpClientHandler
-            {
-                Proxy = webProxy,
-                UseProxy = true
-            };
-            _httpClient = httpClient ?? new HttpClient(httpClientHander);
+            _httpClient = httpClient ?? HttpClientHelperFactory.Instance.CreateHttpClientHelper().CreateHttpClient();
         }
 
         public async Task SendAsync<TResponse>(ApiRequest<TResponse> request, CancellationToken cancellationToken)

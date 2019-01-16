@@ -16,7 +16,6 @@ namespace Telegram.Library.Requests
     {
         public static readonly JsonSerializer JsonObjectTypeSerializer = JsonSerializer.Create();
 
-
         private readonly IRequest _request;
         private readonly string _requestUrl;
 
@@ -53,7 +52,7 @@ namespace Telegram.Library.Requests
             Result = apiResponse.Result;
         }
 
-        private async Task<T> ReadContentAsJsonAsync<T>(HttpResponseMessage message, bool rewindContentStream = false)
+        private static async Task<T> ReadContentAsJsonAsync<T>(HttpResponseMessage message, bool rewindContentStream = false)
         {
             using (var stream = await message.Content
                 .ReadAsStreamAsync()
@@ -74,7 +73,7 @@ namespace Telegram.Library.Requests
             }
         }
 
-        public static T FromJson<T>(Stream stream)
+        private static T FromJson<T>(Stream stream)
         {
             using (var streamReader = new StreamReader(stream))
             using (var jsonReader = new JsonTextReader(streamReader))
