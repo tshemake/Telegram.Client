@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "Telegram.Client.Sender": {
+      "commandName": "Project",
+      "environmentVariables": {
+        "DaemonName": "Sender"
+      }
+    }
+  }
+}
