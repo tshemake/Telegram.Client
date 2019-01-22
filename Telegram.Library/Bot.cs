@@ -6,7 +6,7 @@ namespace Telegram.Library
 {
     public class Bot
     {
-        private readonly object lockObject = new object();
+        private readonly object syncHandle = new object();
         public int Id { get; private set; }
         public string Token { get; set; }
         public string BaseRequestUrl => string.IsNullOrEmpty(Token) ? 
@@ -16,12 +16,12 @@ namespace Telegram.Library
         {
             if (string.IsNullOrEmpty(token)
                 && !EnvironmentSettings.GetEnvironmentVariable("TELEGRAM_BOT_TOKEN", out token))
-                throw new ArgumentNullException(nameof(token));
+                throw new ArgumentNullException("Токен не может быть null или пустым", nameof(token));
 
             string[] parts = token.Split(':');
             if (parts.Length > 1 && int.TryParse(parts[0], out int id))
             {
-                lock (lockObject)
+                lock (syncHandle)
                 {
                     Id = id;
                     Token = token;

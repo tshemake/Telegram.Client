@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 
 namespace Telegram.Library.Types
 {
@@ -15,13 +17,14 @@ namespace Telegram.Library.Types
     /// Это может быть чрезвычайно полезно, если вы хотите создать удобные
     /// пошаговые интерфейсы без ущерба для <see href="https://core.telegram.org/bots#privacy-mode">режима конфиденциальности</see>.
     /// </remarks>
-    public class ForceReplyMarkup
+    public class ForceReplyMarkup : IReplyMarkup
     {
         /// <summary>
         /// Показывает интерфейс ответа для пользователя,
         /// как будто он вручную выбрал сообщение бота и нажал «Ответить»
         /// </summary>
         [Required]
+        [JsonProperty(Required = Required.Always)]
         public bool ForceReply { get; set; }
 
         /// <summary>
@@ -43,6 +46,7 @@ namespace Telegram.Library.Types
         ///     в вопросах своего бота, он будет получать ответы пользователя, даже если он только получает ответы, 
         ///     команды и ссылки username - без какой-либо дополнительной работы для пользователя.
         /// </example>
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public bool Selective { get; set; }
     }
 }

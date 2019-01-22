@@ -7,7 +7,6 @@ using Telegram.Library.Types;
 
 namespace Telegram.Library.Responses
 {
-    [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
     internal class ApiResponse<TResult>
     {
         [JsonProperty(Required = Required.Always)]

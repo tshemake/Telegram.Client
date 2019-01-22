@@ -2,12 +2,15 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 
 namespace Telegram.Library.Types
 {
     /// <summary>
     /// Часть лица, относительно которой должна быть размещена маска. Один из "лоб", "глаза", "рот" или "подбородок".
     /// </summary>
+    [JsonConverter(typeof(StringEnumConverter), true)]
     public enum MaskPositionPoint
     {
         /// <summary>
@@ -35,12 +38,14 @@ namespace Telegram.Library.Types
     public class MaskPosition
     {
         [Key]
+        [JsonIgnore]
         public long Id { get; set; }
 
         /// <summary>
         /// Часть лица, относительно которой должна быть размещена маска. Один из «лоб», «глаза», «рот» или «подбородок».
         /// </summary>
         [Required]
+        [JsonProperty(Required = Required.Always)]
         public MaskPositionPoint Point { get; set; }
 
         /// <summary>
@@ -50,6 +55,7 @@ namespace Telegram.Library.Types
         /// Например, при выборе -1.0 маска будет размещена слева от позиции маски по умолчанию.
         /// </remarks>
         [Required]
+        [JsonProperty(Required = Required.Always)]
         public float XShift { get; set; }
 
         /// <summary>
@@ -59,6 +65,7 @@ namespace Telegram.Library.Types
         /// Например, при выборе 1.0 поместит маску чуть ниже позиции маски по умолчанию.
         /// </remarks>
         [Required]
+        [JsonProperty(Required = Required.Always)]
         public float YShift { get; set; }
 
         /// <summary>
@@ -68,6 +75,7 @@ namespace Telegram.Library.Types
         /// Например, 2.0 означает двойной размер.
         /// </remarks>
         [Required]
+        [JsonProperty(Required = Required.Always)]
         public float Scale { get; set; }
     }
 }

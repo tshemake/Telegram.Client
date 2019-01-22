@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
+using Newtonsoft.Json;
 
 namespace Telegram.Library.Types
 {
@@ -12,30 +13,35 @@ namespace Telegram.Library.Types
     public class Invoice
     {
         [Key]
+        [JsonIgnore]
         public long Id { get; set; }
 
         /// <summary>
         /// Наименование товара
         /// </summary>
         [Required]
+        [JsonProperty(Required = Required.Always)]
         public string Title { get; set; }
 
         /// <summary>
         /// Описание товара
         /// </summary>
         [Required]
+        [JsonProperty(Required = Required.Always)]
         public string Description { get; set; }
 
         /// <summary>
         /// Уникальный параметр глубокой привязки бота, который можно использовать для создания этого счета
         /// </summary>
         [Required]
+        [JsonProperty(Required = Required.Always)]
         public string StartParameter { get; set; }
 
         /// <summary>
         /// Трехзначный код <see href="https://core.telegram.org/bots/payments#supported-currencies">валюты</see> <see href="https://en.wikipedia.org/wiki/ISO_4217">ISO 4217</see>
         /// </summary>
         [Required]
+        [JsonProperty(Required = Required.Always)]
         public string Currency { get; set; }
 
         /// <summary>
@@ -49,6 +55,7 @@ namespace Telegram.Library.Types
         /// показывает количество цифр после запятой для каждой валюты (2 для большинства валют).
         /// </remarks>
         [Required]
+        [JsonProperty(Required = Required.Always)]
         public int TotalAmount { get; set; }
     }
 }

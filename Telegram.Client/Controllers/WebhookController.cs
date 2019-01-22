@@ -4,8 +4,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Telegram.Bot.Types;
 using Telegram.Client.Services;
+using Telegram.Library.Types;
 
 namespace Telegram.Client.Controllers
 {
@@ -23,7 +23,7 @@ namespace Telegram.Client.Controllers
         [HttpPost]
         public async Task<IActionResult> Post([FromBody]Update update)
         {
-            await _updateService.EchoAsync(update);
+            await _updateService.ResolveState(update);
             return Ok();
         }
     }

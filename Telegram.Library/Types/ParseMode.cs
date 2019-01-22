@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 
 namespace Telegram.Library.Types
 {
@@ -11,6 +13,7 @@ namespace Telegram.Library.Types
     /// Telegram clients will render them accordingly. You can use either markdown-style or HTML-style formatting.
     /// </summary>
     /// <see href="https://core.telegram.org/bots/api#formatting-options"/>
+    [JsonConverter(typeof(StringEnumConverter))]
     public enum ParseMode
     {
         /// <summary>

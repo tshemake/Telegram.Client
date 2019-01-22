@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
+using Newtonsoft.Json;
 
 namespace Telegram.Library.Types
 {
@@ -12,6 +13,7 @@ namespace Telegram.Library.Types
     public class ChatPhoto
     {
         [Key]
+        [JsonIgnore]
         public long Id { get; set; }
 
         /// <summary>
@@ -19,6 +21,7 @@ namespace Telegram.Library.Types
         /// Этот идентификатор может быть использован только для загрузки фото.
         /// </summary>
         [Required]
+        [JsonProperty(Required = Required.Always)]
         public string SmallFileId { get; set; }
 
         /// <summary>
@@ -26,6 +29,7 @@ namespace Telegram.Library.Types
         /// Этот идентификатор может быть использован только для загрузки фото.
         /// </summary>
         [Required]
+        [JsonProperty(Required = Required.Always)]
         public string BigFileId { get; set; }
     }
 }

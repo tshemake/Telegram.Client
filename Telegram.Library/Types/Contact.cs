@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
+using Newtonsoft.Json;
 
 namespace Telegram.Library.Types
 {
@@ -12,28 +13,33 @@ namespace Telegram.Library.Types
     public class Contact
     {
         [Key]
+        [JsonIgnore]
         public long Id { get; set; }
 
         /// <summary>
         /// Контактный телефон
         /// </summary>
         [Required]
+        [JsonProperty(Required = Required.Always)]
         public string PhoneNumber { get; set; }
 
         /// <summary>
         /// Имя контакта
         /// </summary>
         [Required]
+        [JsonProperty(Required = Required.Always)]
         public string FirstName { get; set; }
 
         /// <summary>
         /// Необязательный. Фамилия контакта
         /// </summary>
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public string LastName { get; set; }
 
         /// <summary>
         /// Необязательный. Идентификатор пользователя контакта в Telegram
         /// </summary>
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public int UserId { get; set; }
 
         /// <summary>
@@ -41,6 +47,7 @@ namespace Telegram.Library.Types
         /// Размером до 2048 байт
         /// </summary>
         [MaxLength(2048)]
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public string VCard { get; set; }
     }
 }

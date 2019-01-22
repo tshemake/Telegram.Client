@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
+using Newtonsoft.Json;
 
 namespace Telegram.Library.Types
 {
@@ -18,23 +19,27 @@ namespace Telegram.Library.Types
     public class File
     {
         [Key]
+        [JsonIgnore]
         public long Id { get; set; }
 
         /// <summary>
         /// Уникальный идентификатор этого файла
         /// </summary>
         [Required]
+        [JsonProperty("file_id", Required = Required.Always)]
         public string UniqueFileId { get; set; }
 
         /// <summary>
         /// Необязательный. Путь файла.
         /// Используйте <see href="https://api.telegram.org/file/bot<token>/<file_path>"/> чтобы получить файл.
         /// </summary>
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public string FilePath { get; set; }
 
         /// <summary>
         /// Необязательный. Размер файла
         /// </summary>
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public int FileSize { get; set; }
     }
 }

@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 
 namespace Telegram.Library.Types
 {
@@ -14,12 +16,13 @@ namespace Telegram.Library.Types
     /// Это будет работать только в версиях Telegram, выпущенных после 9 апреля 2016 года.
     /// Старые клиенты Telegram будут отображать неподдерживаемое сообщение.
     /// </remarks>
-    public class InlineKeyboardMarkup
+    public class InlineKeyboardMarkup : IReplyMarkup
     {
         /// <summary>
         /// Массив рядов кнопок, каждый из которых представлен массивом <see cref="InlineKeyboardButton"/>.
         /// </summary>
         [Required]
+        [JsonProperty(Required = Required.Always)]
         public IEnumerable<IEnumerable<InlineKeyboardButton>> InlineKeyboard { get; }
     }
 }

@@ -7,10 +7,13 @@ using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
-using Telegram.Bot;
+using Telegram.Client.Configurations;
+using Telegram.Library;
 
 namespace Telegram.Client
 {
+    using System.Threading;
+
     public class Program
     {
         public static void Main(string[] args)
@@ -19,12 +22,12 @@ namespace Telegram.Client
                  .AddCommandLine(args)
                  .AddEnvironmentVariables()
                  .Build();
-            ThrowIfInvalidBotToken(config["BotToken"]);
-            if ((config["SetWebhook"] ?? "false") == "true")
+            ThrowIfInvalidBotToken(config[EnvironmentVariables.BotToken]);
+            if ((config[EnvironmentVariables.SetWebhook]?.ToLowerInvariant() ?? "false") == "true")
             {
-                ThrowIfInvalidUrl(config["Webhook"]);
-                var api = new TelegramBotClient(config["BotToken"]);
-                api.SetWebhookAsync(config["Webhook"]).Wait();
+                ThrowIfInvalidUrl(config[EnvironmentVariables.Webhook]);
+                var api = new TelegramBotClient(config[EnvironmentVariables.BotToken]);
+                api.SetWebhookAsync(config[EnvironmentVariables.Webhook], new CancellationToken()).Wait();
             }
             else
             {

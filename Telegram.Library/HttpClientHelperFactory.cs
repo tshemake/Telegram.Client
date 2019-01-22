@@ -7,12 +7,8 @@ namespace Telegram.Library
 {
     internal class HttpClientHelperFactory
     {
-        public static HttpClientHelperFactory Instance { get; protected set; }
-
-        static HttpClientHelperFactory()
-        {
-            Instance = new HttpClientHelperFactory();
-        }
+        public static readonly Lazy<HttpClientHelperFactory> _instance = new Lazy<HttpClientHelperFactory>(() => new HttpClientHelperFactory());
+        public static HttpClientHelperFactory Instance => _instance.Value;
 
         protected HttpClientHelperFactory()
         {

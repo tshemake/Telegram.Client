@@ -2,11 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Telegram.Bot.Types;
-using Telegram.Bot.Types.Enums;
+using Telegram.Library.Types;
 
 namespace Telegram.Client.Services
 {
+    using System.Threading;
+
     public class UpdateService : IUpdateService
     {
         private readonly IBotService _botService;
@@ -16,20 +17,74 @@ namespace Telegram.Client.Services
             _botService = botService;
         }
 
-        public async Task EchoAsync(Update update)
+        public async Task ResolveState(Update update)
         {
             if (update.Type != UpdateType.Message)
-            {
                 return;
-            }
 
-            var message = update.Message;
+            if (update.Message.Type != MessageType.Text)
+                return;
 
-            if (message.Type == MessageType.Text)
+            var special = await SpecialCommandsParser(update);
+            if (special)
+                return;
+
+            await SendHelp(update);
+        }
+
+        private async Task<bool> SpecialCommandsParser(Update update)
+        {
+            var text = GetMessageText(update);
+
+            if (text.Contains("/start"))
             {
-                // Echo each Message
-                await _botService.Client.SendTextMessageAsync(message.Chat.Id, message.Text);
+                var identifier = GetUserId(update);
+
+                await _botService.Client.SendTextMessageAsync(new ChatId(identifier), "Выбор", new CancellationToken());
+                return true;
             }
+
+            if (text.Contains("/help"))
+            {
+                await SendHelp(update);
+                return true;
+            }
+
+            if (text.Contains("/button"))
+            {
+                var identifier = GetUserId(update);
+
+                await _botService.Client.SendTextMessageAsync(new ChatId(identifier), "Книопки", new CancellationToken());
+                return true;
+            }
+
+            return false;
+        }
+
+        private async Task SendHelp(Update update)
+        {
+            var identifier = GetUserId(update);
+            var helpText = "Здесь будет помощь";
+            await _botService.Client.SendTextMessageAsync(new ChatId(identifier), helpText, new CancellationToken());
+        }
+
+        private long GetUserId(Update update)
+        {
+            return update?.CallbackQuery?.Message?.Chat.UniqueChatId ??
+                   update?.Message?.Chat?.UniqueChatId ??
+                   throw new Exception("UserId not exist");
+        }
+
+        private string GetNickName(Update update)
+        {
+            return update?.CallbackQuery?.From?.Username ??
+                   update?.Message?.From?.Username ??
+                   string.Empty;
+        }
+
+        private string GetMessageText(Update update)
+        {
+            return update?.Message?.Text ?? update?.CallbackQuery?.Message.Text;
         }
     }
 }

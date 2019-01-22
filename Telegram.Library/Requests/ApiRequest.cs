@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 using Telegram.Library.Exceptions;
 using Telegram.Library.Responses;
 
@@ -15,6 +16,13 @@ namespace Telegram.Library.Requests
     internal class ApiRequest<TResponseType>
     {
         public static readonly JsonSerializer JsonObjectTypeSerializer = JsonSerializer.Create();
+        public static readonly JsonSerializerSettings ObjectSerializationSettings = new JsonSerializerSettings
+        {
+            ContractResolver = new DefaultContractResolver
+            {
+                NamingStrategy = new SnakeCaseNamingStrategy { OverrideSpecifiedNames = true }
+            }
+        };
 
         private readonly IRequest _request;
         private readonly string _requestUrl;
@@ -52,34 +60,15 @@ namespace Telegram.Library.Requests
             Result = apiResponse.Result;
         }
 
-        private static async Task<T> ReadContentAsJsonAsync<T>(HttpResponseMessage message, bool rewindContentStream = false)
+        private static async Task<T> ReadContentAsJsonAsync<T>(HttpResponseMessage message)
         {
-            using (var stream = await message.Content
-                .ReadAsStreamAsync()
-                .ConfigureAwait(continueOnCapturedContext: false))
-            {
-                var streamPosition = stream.Position;
-                try
-                {
-                    return FromJson<T>(stream);
-                }
-                finally
-                {
-                    if (stream.CanSeek && streamPosition != stream.Position && rewindContentStream)
-                    {
-                        stream.Seek(streamPosition, SeekOrigin.Begin);
-                    }
-                }
-            }
+            var content = await message.Content.ReadAsStringAsync();
+            return FromJson<T>(content);
         }
 
-        private static T FromJson<T>(Stream stream)
+        private static T FromJson<T>(string value)
         {
-            using (var streamReader = new StreamReader(stream))
-            using (var jsonReader = new JsonTextReader(streamReader))
-            {
-                return JsonObjectTypeSerializer.Deserialize<T>(jsonReader);
-            }
+            return JsonConvert.DeserializeObject<T>(value, ObjectSerializationSettings);
         }
 
         public void OnError(int errorCode, string errorMessage)

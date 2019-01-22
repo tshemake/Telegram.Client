@@ -26,18 +26,21 @@ namespace Telegram.Library
 
         public async Task SendAsync<TResponse>(ApiRequest<TResponse> request, CancellationToken cancellationToken)
         {
-            var httpRequest = request.OnSend();
-
-            HttpResponseMessage httpResponse;
             try
             {
-                httpResponse = await _httpClient.SendAsync(httpRequest, cancellationToken)
+                var httpRequest = request.OnSend();
+                var httpResponse = await _httpClient.SendAsync(httpRequest, cancellationToken)
                     .ConfigureAwait(continueOnCapturedContext: false);
 
                 if (!httpResponse.StatusCode.IsSuccessfulRequest())
                 {
-                    throw new ApiResponseException("Ошибка ответа", httpResponse.StatusCode);
+                    var error = await httpResponse.Content.ReadAsStringAsync();
+                    throw new ApiResponseException(error, httpResponse.StatusCode);
                 }
+
+                cancellationToken.ThrowIfCancellationRequested();
+
+                await ProcessResponseAsync(request, httpResponse).ConfigureAwait(false);
             }
             catch (TaskCanceledException ex)
             {
@@ -46,8 +49,11 @@ namespace Telegram.Library
 
                 throw new ApiRequestException("Превышение таймаута", 408, ex);
             };
+        }
 
-            await request.OnResponseAsync(httpResponse).ConfigureAwait(false);
+        private async Task ProcessResponseAsync<TResponse>(ApiRequest<TResponse> request, HttpResponseMessage response)
+        {
+            await request.OnResponseAsync(response).ConfigureAwait(false);
         }
     }
 }

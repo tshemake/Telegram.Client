@@ -5,6 +5,8 @@ using System.Text;
 
 namespace Telegram.Library.Types
 {
+    using Newtonsoft.Json;
+
     /// <summary>
     /// Содержит данные, необходимые для расшифровки и аутентификации <see cref="EncryptedPassportElement"/>.
     /// См. <see href="https://core.telegram.org/passport#receiving-information">Telegram Passport
@@ -14,6 +16,7 @@ namespace Telegram.Library.Types
     public class EncryptedCredentials
     {
         [Key]
+        [JsonIgnore]
         public long Id { get; set; }
 
         /// <summary>
@@ -21,18 +24,21 @@ namespace Telegram.Library.Types
         /// хэшами и секретами данных, необходимыми для расшифровки и аутентификации <see cref="EncryptedPassportElement"/>.
         /// </summary>
         [Required]
+        [JsonProperty(Required = Required.Always)]
         public string Data { get; set; }
 
         /// <summary>
         /// Base64-закодированный хэш данных для аутентификации данных
         /// </summary>
         [Required]
+        [JsonProperty(Required = Required.Always)]
         public string Hash { get; set; }
 
         /// <summary>
         /// Секрет в кодировке Base64, зашифрованный открытым ключом RSA бота, необходимый для расшифровки данных
         /// </summary>
         [Required]
+        [JsonProperty(Required = Required.Always)]
         public string Secret { get; set; }
     }
 }

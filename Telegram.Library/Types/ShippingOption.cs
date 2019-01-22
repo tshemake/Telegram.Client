@@ -28,6 +28,6 @@ namespace Telegram.Library.Types
         /// <summary>
         /// Список цен
         /// </summary>
-        public ICollection<LabeledPrice> Prices { get; set; }
+        public IEnumerable<LabeledPrice> Prices { get; set; }
     }
 }

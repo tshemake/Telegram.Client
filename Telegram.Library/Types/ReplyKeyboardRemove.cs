@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 
 namespace Telegram.Library.Types
 {
@@ -14,13 +16,14 @@ namespace Telegram.Library.Types
     /// По умолчанию пользовательские клавиатуры отображаются до тех пор, пока бот не отправит новую клавиатуру.
     /// Исключение делается для одноразовых клавиатур, которые скрываются сразу после нажатия пользователем кнопки (<see cref="ReplyKeyboardMarkup"/>).
     /// </remarks>
-    public class ReplyKeyboardRemove
+    public class ReplyKeyboardRemove : IReplyMarkup
     {
         /// <summary>
         /// Просит клиентов удалить пользовательскую клавиатуру (пользователь не сможет вызвать эту клавиатуру; 
         /// если вы хотите скрыть клавиатуру от глаз, но оставить ее доступной, используйте <see cref="ReplyKeyboardMarkup.OneTimeKeyboard"/>)
         /// </summary>
         [Required]
+        [JsonProperty(Required = Required.Always)]
         public bool RemoveKeyboard => true;
 
         /// <summary>
@@ -34,6 +37,7 @@ namespace Telegram.Library.Types
         /// и удаляет клавиатуру для этого пользователя, в то же время показывая клавиатуру с
         /// параметрами опроса пользователям, которые еще не проголосовали.
         /// </example>
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public bool Selective { get; set; }
     }
 }

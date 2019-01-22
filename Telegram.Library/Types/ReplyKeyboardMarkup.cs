@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 
 namespace Telegram.Library.Types
 {
@@ -12,12 +14,13 @@ namespace Telegram.Library.Types
     /// <remarks>
     /// <see cref="">Подробности и примеры смотреть в разделе <see href="https://core.telegram.org/bots#keyboards">Введение в ботов</see></see>
     /// </remarks>
-    class ReplyKeyboardMarkup
+    class ReplyKeyboardMarkup : IReplyMarkup
     {
         /// <summary>
         /// Массив строк кнопок, каждый из которых представлен массивом объектов KeyboardButton
         /// </summary>
         [Required]
+        [JsonProperty(Required = Required.Always)]
         public IEnumerable<IEnumerable<KeyboardButton>> Keyboard { get; set; }
 
         /// <summary>
@@ -28,6 +31,7 @@ namespace Telegram.Library.Types
         /// По умолчанию значение <c>false</c>, и в этом случае настраиваемая клавиатура всегда имеет ту же высоту, 
         /// что и стандартная клавиатура приложения.
         /// </remarks>
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public bool ResizeKeyboard { get; set; }
 
         /// <summary>
@@ -39,6 +43,7 @@ namespace Telegram.Library.Types
         /// <remarks>
         /// По умолчанию значение <c>false</c>.
         /// </remarks>
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public bool OneTimeKeyboard { get; set; }
 
         /// <summary>
@@ -51,6 +56,7 @@ namespace Telegram.Library.Types
         /// Пользователь просит изменить язык бота, бот отвечает на запрос с помощью клавиатуры,
         /// предлогая выбрать новый язык. Другие пользователи в группе не видят клавиатуру.
         /// </example>
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public bool Selective { get; set; }
     }
 }

@@ -8,8 +8,10 @@ namespace Telegram.Library.Requests
 {
     public abstract class RequestBase : IRequest
     {
+        [JsonIgnore]
         public HttpMethod Method { get; }
 
+        [JsonIgnore]
         public string MethodName { get; protected set; }
 
         protected RequestBase(string methodName, HttpMethod method)

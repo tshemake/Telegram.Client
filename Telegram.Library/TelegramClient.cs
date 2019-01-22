@@ -5,15 +5,11 @@ using System.Net.Http;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using Newtonsoft.Json;
-using Telegram.Library.Exceptions;
-using Telegram.Library.Types;
 using Telegram.Library.Requests;
-using Telegram.Library.Responses;
 
 namespace Telegram.Library
 {
-    public class TelegramBotClient
+    public partial class TelegramBotClient : ITelegramBotClient
     {
         private readonly Bot _bot;
         private readonly ApiSender _sender;
@@ -34,13 +30,9 @@ namespace Telegram.Library
             _sender = new ApiSender(webProxy);
         }
 
-        public async Task<User> GetMeAsync(CancellationToken cancellationToken) => await SendRequestAsync<User>(new GetMeRequest(), cancellationToken);
-
-        public async Task<TResponse> SendRequestAsync<TResponse>(IRequest request, CancellationToken cancellationToken, bool throwOnError = true)
+        private async Task<TResponse> SendRequestAsync<TResponse>(IRequest request, CancellationToken cancellationToken = new CancellationToken(), bool throwOnError = true)
         {
-            string url = string.Concat(_bot.BaseRequestUrl, request.MethodName);
-            if (!UriValidator.IsValidUri(url)) throw new UriFormatException(url);
-
+            string url = BuildUrl(_bot.BaseRequestUrl, request.MethodName);;
             var apiRequst = new ApiRequest<TResponse>(request, url);
             try
             {
@@ -53,6 +45,14 @@ namespace Telegram.Library
             if (throwOnError) apiRequst.ThrowIfHasError();
 
             return apiRequst.Result;
+        }
+
+        private string BuildUrl(string BaseRequestUrl, string methodName)
+        {
+            string url = string.Concat(_bot.BaseRequestUrl, methodName);
+            if (!UriValidator.IsValidUri(url)) throw new UriFormatException(url);
+
+            return url;
         }
     }
 }

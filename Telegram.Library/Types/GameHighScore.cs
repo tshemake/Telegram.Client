@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
+using Newtonsoft.Json;
 
 namespace Telegram.Library.Types
 {
@@ -15,18 +16,21 @@ namespace Telegram.Library.Types
         /// Положение в таблице рекордов по игре
         /// </summary>
         [Required]
+        [JsonProperty(Required = Required.Always)]
         public int Position { get; set; }
 
         /// <summary>
         /// Пользователь
         /// </summary>
         [Required]
+        [JsonProperty(Required = Required.Always)]
         public User User { get; set; }
 
         /// <summary>
         /// Счет
         /// </summary>
         [Required]
+        [JsonProperty(Required = Required.Always)]
         public int Score { get; set; }
     }
 }

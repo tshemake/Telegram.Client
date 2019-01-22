@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Telegram.Bot;
+using Telegram.Library;
 
 namespace Telegram.Client.Services
 {

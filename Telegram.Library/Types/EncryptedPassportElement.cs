@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
+using Newtonsoft.Json;
 
 namespace Telegram.Library.Types
 {
@@ -12,6 +13,7 @@ namespace Telegram.Library.Types
     public class EncryptedPassportElement
     {
         [Key]
+        [JsonIgnore]
         public long Id { get; set; }
 
         /// <summary>
@@ -20,12 +22,14 @@ namespace Telegram.Library.Types
         /// "passport_registration", "temporary_registration", "phone_number", "email".
         /// </summary>
         [Required]
+        [JsonProperty(Required = Required.Always)]
         public string Type { get; set; }
 
         /// <summary>
         /// Хэш-элемент в кодировке Base64 для использования в <see cref="PassportElementErrorUnspecified"/>
         /// </summary>
         [Required]
+        [JsonProperty(Required = Required.Always)]
         public string Hash { get; set; }
 
         /// <summary>
@@ -33,16 +37,19 @@ namespace Telegram.Library.Types
         /// доступны для типов "personal_details", "passport", "driver_license", "identity_card", "identity_passport" and "address".
         /// Может быть расшифрован и проверен с использованием <see cref="EncryptedCredentials"/>.
         /// </summary>
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public string Data { get; set; }
 
         /// <summary>
         /// Необязательный. Подтвержденный пользователем номер телефона, доступен только для типа «номер телефона»
         /// </summary>
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public string PhoneNumber { get; set; }
 
         /// <summary>
         /// Необязательный. Подтвержденный пользователем адрес электронной почты, доступный только для типа «электронная почта»
         /// </summary>
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public string Email { get; set; }
 
         /// <summary>
@@ -53,7 +60,8 @@ namespace Telegram.Library.Types
         /// <remarks>
         /// Файлы могут быть расшифрованы и проверены с помощью <see cref="EncryptedCredentials"/>.
         /// </remarks>
-        public PassportFile[] Files { get; set; }
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public IEnumerable<PassportFile> Files { get; set; }
 
         /// <summary>
         /// Необязательный. Зашифрованный файл с лицевой стороны документа, предоставленный пользователем. 
@@ -62,6 +70,7 @@ namespace Telegram.Library.Types
         /// <remarks>
         /// Файл может быть расшифрован и проверен с помощью <see cref="EncryptedCredentials"/>.
         /// </remarks>
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public PassportFile FrontSide { get; set; }
 
         /// <summary>
@@ -71,6 +80,7 @@ namespace Telegram.Library.Types
         /// <remarks>
         /// Файл может быть расшифрован и проверен с помощью <see cref="EncryptedCredentials"/>.
         /// </remarks>
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public PassportFile ReverseSide { get; set; }
 
         /// <summary>
@@ -80,6 +90,7 @@ namespace Telegram.Library.Types
         /// <remarks>
         /// Файл может быть расшифрован и проверен с помощью <see cref="EncryptedCredentials"/>.
         /// </remarks>
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public PassportFile Selfie { get; set; }
 
         /// <summary>
@@ -91,6 +102,7 @@ namespace Telegram.Library.Types
         /// <remarks>
         /// Файл может быть расшифрован и проверен с помощью <see cref="EncryptedCredentials"/>.
         /// </remarks>
-        public PassportFile[] Translation { get; set; }
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public IEnumerable<PassportFile> Translation { get; set; }
     }
 }

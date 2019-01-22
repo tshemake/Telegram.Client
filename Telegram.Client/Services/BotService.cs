@@ -2,23 +2,18 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Telegram.Bot;
+using Telegram.Client.Configurations;
+using Telegram.Library;
 
 namespace Telegram.Client.Services
 {
     public class BotService : IBotService
     {
-        public BotService()
+        public BotService(BotConfiguration config)
         {
-            Client = new TelegramBotClient(GetEnvironmentVariable("BotToken"));
+            Client = new TelegramBotClient(config.BotToken);
         }
 
         public TelegramBotClient Client { get; }
-
-        public static string GetEnvironmentVariable(string variable, string defaultValue = null)
-        {
-            var value = Environment.GetEnvironmentVariable(variable);
-            return value ?? defaultValue;
-        }
     }
 }
