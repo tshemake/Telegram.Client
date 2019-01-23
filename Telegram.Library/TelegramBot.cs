@@ -14,20 +14,28 @@ namespace Telegram.Library
     {
         public async Task<bool> SetWebhookAsync(
             string url,
-            CancellationToken cancellationToken
+            CancellationToken cancellationToken = default(CancellationToken)
         ) =>
             await SendRequestAsync<bool>(new SetWebhookRequest(url), cancellationToken);
 
-        public async Task<WebhookInfo> GetWebhookInfoAsync(CancellationToken cancellationToken)
+        public async Task<WebhookInfo> GetWebhookInfoAsync(CancellationToken cancellationToken = default(CancellationToken))
             => await SendRequestAsync<WebhookInfo>(new GetWebhookInfoRequest(), cancellationToken);
 
-        public async Task<User> GetMeAsync(CancellationToken cancellationToken) => await SendRequestAsync<User>(new GetMeRequest(), cancellationToken);
+        public async Task<User> GetMeAsync(CancellationToken cancellationToken) 
+            => await SendRequestAsync<User>(new GetMeRequest(), cancellationToken);
 
         public async Task<Message> SendTextMessageAsync(
             ChatId chatId,
             string text,
-            CancellationToken cancellationToken
+            CancellationToken cancellationToken = default(CancellationToken)
         ) =>
             await SendRequestAsync<Message>(new SendMessageRequest(chatId, text), cancellationToken);
+
+        public async Task<bool> SendChatActionAsync(
+            ChatId chatId,
+            ChatAction chatAction,
+            CancellationToken cancellationToken = default(CancellationToken)
+        ) =>
+            await SendRequestAsync<bool>(new SendChatActionRequest(chatId, chatAction), cancellationToken);
     }
 }

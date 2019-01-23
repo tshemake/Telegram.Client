@@ -14,6 +14,7 @@ namespace Telegram.Client.Sender.Infrastructure
     {
         bool disposed = false;
         private readonly IConfiguration _config;
+        private Timer _timer;
 
         public DaemonService(IConfiguration config)
         {
@@ -23,12 +24,20 @@ namespace Telegram.Client.Sender.Infrastructure
         public Task StartAsync(CancellationToken cancellationToken)
         {
             Debug.WriteLine("Starting daemon: " + _config[EnvironmentVariables.DaemonName]);
+            _timer = new Timer(DoWork, null, TimeSpan.Zero,
+                TimeSpan.FromSeconds(1));
             return Task.CompletedTask;
+        }
+
+        private void DoWork(object state)
+        {
+            Console.WriteLine("Timed Background Service is working.");
         }
 
         public Task StopAsync(CancellationToken cancellationToken)
         {
             Debug.WriteLine("Stopping daemon.");
+            _timer?.Change(Timeout.Infinite, 0);
             return Task.CompletedTask;
         }
 
@@ -50,6 +59,7 @@ namespace Telegram.Client.Sender.Infrastructure
             {
                 // Free any other managed objects here.
                 //
+                _timer?.Dispose();
             }
 
             // Free any unmanaged objects here.

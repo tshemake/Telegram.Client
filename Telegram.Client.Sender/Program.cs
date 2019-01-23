@@ -9,7 +9,19 @@ namespace Telegram.Client.Sender
 {
     class Program
     {
-        static void Main(string[] args) => MainAsync(args).GetAwaiter().GetResult();
+        static int Main(string[] args)
+        {
+            try
+            {
+                MainAsync(args).GetAwaiter().GetResult();
+                return 0;
+            }
+            catch (Exception ex)
+            {
+                Console.Error.WriteLine(ex);
+                return -1;
+            }
+        }
 
         static async Task MainAsync(string[] args)
         {

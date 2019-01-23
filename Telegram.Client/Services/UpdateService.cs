@@ -40,7 +40,7 @@ namespace Telegram.Client.Services
             {
                 var identifier = GetUserId(update);
 
-                await _botService.Client.SendTextMessageAsync(new ChatId(identifier), "Выбор", new CancellationToken());
+                await _botService.Client.SendTextMessageAsync(new ChatId(identifier), "Выбор");
                 return true;
             }
 
@@ -54,7 +54,7 @@ namespace Telegram.Client.Services
             {
                 var identifier = GetUserId(update);
 
-                await _botService.Client.SendTextMessageAsync(new ChatId(identifier), "Книопки", new CancellationToken());
+                await _botService.Client.SendTextMessageAsync(new ChatId(identifier), "Книопки"));
                 return true;
             }
 
@@ -65,7 +65,7 @@ namespace Telegram.Client.Services
         {
             var identifier = GetUserId(update);
             var helpText = "Здесь будет помощь";
-            await _botService.Client.SendTextMessageAsync(new ChatId(identifier), helpText, new CancellationToken());
+            await _botService.Client.SendTextMessageAsync(new ChatId(identifier), helpText);
         }
 
         private long GetUserId(Update update)

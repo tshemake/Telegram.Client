@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Telegram.Library.Requests;
 using Telegram.Library.Types;
 
 namespace Telegram.Library
@@ -16,5 +17,9 @@ namespace Telegram.Library
             ChatId chatId,
             string text,
             CancellationToken cancellationToken);
+        Task<bool> SendChatActionAsync(
+            ChatId chatId,
+            ChatAction chatAction,
+            CancellationToken cancellationToken = default(CancellationToken));
     }
 }

@@ -36,7 +36,7 @@ namespace Telegram.Library
             var apiRequst = new ApiRequest<TResponse>(request, url);
             try
             {
-                await _sender.SendAsync(apiRequst, cancellationToken);
+                await _sender.SendAsync(apiRequst, cancellationToken).ConfigureAwait(false);
             }
             catch (Exception)
             {
