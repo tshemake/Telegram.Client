@@ -27,7 +27,7 @@ namespace Telegram.Client
             {
                 ThrowIfInvalidUrl(config[EnvironmentVariables.Webhook]);
                 var api = new TelegramBotClient(config[EnvironmentVariables.BotToken]);
-                api.SetWebhookAsync(config[EnvironmentVariables.Webhook], new CancellationToken()).Wait();
+                api.SetWebhookAsync(config[EnvironmentVariables.Webhook]).Wait();
             }
             else
             {

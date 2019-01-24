@@ -9,7 +9,7 @@ namespace Telegram.Library
         private readonly object syncHandle = new object();
         public int Id { get; private set; }
         public string Token { get; set; }
-        public string BaseRequestUrl => string.IsNullOrEmpty(Token) ? 
+        public string BaseRequestUrl => string.IsNullOrEmpty(Token) ?
             string.Empty : $"{TelegramBotClientConfiguration.BaseUrl}{Token}/";
 
         public (int, string) SetToken(string token)
@@ -36,6 +36,18 @@ namespace Telegram.Library
             }
 
             return (Id, Token);
+        }
+
+        public static string TryGetBaseRequestUrl(string token)
+        {
+            return TokenIsValid(token) ? $"{TelegramBotClientConfiguration.BaseUrl}{token}/" : null;
+        }
+
+        public static bool TokenIsValid(string token)
+        {
+            if (string.IsNullOrEmpty(token)) return false;
+            string[] parts = token.Split(':');
+            return parts.Length > 1 && int.TryParse(parts[0], out int id);
         }
     }
 }

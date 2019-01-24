@@ -31,11 +31,27 @@ namespace Telegram.Library
         ) =>
             await SendRequestAsync<Message>(new SendMessageRequest(chatId, text), cancellationToken);
 
+        public async Task<Message> SendTextMessageAsync(
+            string token,
+            ChatId chatId,
+            string text,
+            CancellationToken cancellationToken = default(CancellationToken)
+        ) =>
+            await SendRequestAsync<Message>(token, new SendMessageRequest(chatId, text), cancellationToken);
+
         public async Task<bool> SendChatActionAsync(
             ChatId chatId,
             ChatAction chatAction,
             CancellationToken cancellationToken = default(CancellationToken)
         ) =>
             await SendRequestAsync<bool>(new SendChatActionRequest(chatId, chatAction), cancellationToken);
+
+        public async Task<bool> SendChatActionAsync(
+            string token,
+            ChatId chatId,
+            ChatAction chatAction,
+            CancellationToken cancellationToken = default(CancellationToken)
+        ) =>
+            await SendRequestAsync<bool>(token, new SendChatActionRequest(chatId, chatAction), cancellationToken);
     }
 }

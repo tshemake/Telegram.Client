@@ -54,7 +54,7 @@ namespace Telegram.Client.Services
             {
                 var identifier = GetUserId(update);
 
-                await _botService.Client.SendTextMessageAsync(new ChatId(identifier), "Книопки"));
+                await _botService.Client.SendTextMessageAsync(new ChatId(identifier), "Книопки");
                 return true;
             }
 

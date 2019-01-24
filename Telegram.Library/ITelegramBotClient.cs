@@ -17,9 +17,19 @@ namespace Telegram.Library
             ChatId chatId,
             string text,
             CancellationToken cancellationToken);
+        Task<Message> SendTextMessageAsync(
+            string token,
+            ChatId chatId,
+            string text,
+            CancellationToken cancellationToken);
         Task<bool> SendChatActionAsync(
             ChatId chatId,
             ChatAction chatAction,
-            CancellationToken cancellationToken = default(CancellationToken));
+            CancellationToken cancellationToken);
+        Task<bool> SendChatActionAsync(
+            string token,
+            ChatId chatId,
+            ChatAction chatAction,
+            CancellationToken cancellationToken);
     }
 }
