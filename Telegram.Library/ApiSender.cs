@@ -29,7 +29,7 @@ namespace Telegram.Library
             try
             {
                 var httpRequest = request.OnSend();
-                var httpResponse = await _httpClient.SendAsync(httpRequest, cancellationToken)
+                var httpResponse = await PollyHttpClient.PostAsync(this._httpClient, httpRequest, cancellationToken)
                     .ConfigureAwait(continueOnCapturedContext: false);
 
                 if (!httpResponse.StatusCode.IsSuccessfulRequest())
