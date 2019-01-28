@@ -10,26 +10,41 @@ namespace Telegram.Library
 {
     public interface ITelegramBotClient
     {
-        Task<bool> SetWebhookAsync(string url, CancellationToken cancellationToken);
-        Task<WebhookInfo> GetWebhookInfoAsync(CancellationToken cancellationToken);
-        Task<User> GetMeAsync(CancellationToken cancellationToken);
+        Task<bool> SetWebhookAsync(string url,
+                                   Action<bool> callback = null,
+                                   Action<string, Exception> errorCallback = null,
+                                   CancellationToken cancellationToken = default(CancellationToken));
+        Task<WebhookInfo> GetWebhookInfoAsync(Action<WebhookInfo> callback = null,
+                                              Action<string, Exception> errorCallback = null,
+                                              CancellationToken cancellationToken = default(CancellationToken));
+        Task<User> GetMeAsync(Action<User> callback = null,
+                              Action<string, Exception> errorCallback = null,
+                              CancellationToken cancellationToken = default(CancellationToken));
         Task<Message> SendTextMessageAsync(
             ChatId chatId,
             string text,
-            CancellationToken cancellationToken);
+            Action<Message> callback = null,
+            Action<string, Exception> errorCallback = null,
+            CancellationToken cancellationToken = default(CancellationToken));
         Task<Message> SendTextMessageAsync(
             string token,
             ChatId chatId,
             string text,
-            CancellationToken cancellationToken);
+            Action<Message> callback = null,
+            Action<string, Exception> errorCallback = null,
+            CancellationToken cancellationToken = default(CancellationToken));
         Task<bool> SendChatActionAsync(
             ChatId chatId,
             ChatAction chatAction,
-            CancellationToken cancellationToken);
+            Action<bool> callback = null,
+            Action<string, Exception> errorCallback = null,
+            CancellationToken cancellationToken = default(CancellationToken));
         Task<bool> SendChatActionAsync(
             string token,
             ChatId chatId,
             ChatAction chatAction,
-            CancellationToken cancellationToken);
+            Action<bool> callback = null,
+            Action<string, Exception> errorCallback = null,
+            CancellationToken cancellationToken = default(CancellationToken));
     }
 }

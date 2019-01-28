@@ -22,9 +22,9 @@
       "launchBrowser": true,
       "launchUrl": "api/values",
       "environmentVariables": {
-        "Webhook": "https://3a0023fd.ngrok.io/api/WebHook/1",
+        "Webhook": "https://6fc738f9.ngrok.io/api/WebHook/1",
         "BotToken": "666294504:AAHM0k0-EPpcJJwhpQdapxiXSO8iik-jm30",
-        "SetWebhook": "true",
+        "SetWebhook": "false",
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
       "applicationUrl": "http://localhost:5000"

@@ -47,13 +47,13 @@ namespace Telegram.Library
             _bot.SetToken(token);
         }
 
-        private async Task<TResponse> SendRequestAsync<TResponse>(IRequest request, CancellationToken cancellationToken = new CancellationToken(), bool throwOnError = true)
+        private async Task<TResponse> SendRequestAsync<TResponse>(IRequest request, Action<TResponse> callback = null, Action<string, Exception> errorCallback = null, CancellationToken cancellationToken = new CancellationToken(), bool throwOnError = true)
         {
             string url = BuildUrl(_bot.BaseRequestUrl, request.MethodName);
             var apiRequst = new ApiRequest<TResponse>(request, url);
             try
             {
-                await _sender.SendAsync(apiRequst, cancellationToken).ConfigureAwait(false);
+                await _sender.SendAsync(apiRequst, callback, errorCallback, cancellationToken).ConfigureAwait(false);
             }
             catch (Exception)
             {
@@ -64,7 +64,7 @@ namespace Telegram.Library
             return apiRequst.Result;
         }
 
-        private async Task<TResponse> SendRequestAsync<TResponse>(string token, IRequest request, CancellationToken cancellationToken = new CancellationToken(), bool throwOnError = true)
+        private async Task<TResponse> SendRequestAsync<TResponse>(string token, IRequest request, Action<TResponse> callback = null, Action<string, Exception> errorCallback = null, CancellationToken cancellationToken = new CancellationToken(), bool throwOnError = true)
         {
             string baseRequestUrl = Bot.TryGetBaseRequestUrl(token);
             if (string.IsNullOrEmpty(baseRequestUrl))
@@ -78,7 +78,7 @@ namespace Telegram.Library
             var apiRequst = new ApiRequest<TResponse>(request, url);
             try
             {
-                await _sender.SendAsync(apiRequst, cancellationToken).ConfigureAwait(false);
+                await _sender.SendAsync(apiRequst, callback, errorCallback, cancellationToken).ConfigureAwait(false);
             }
             catch (Exception)
             {
@@ -91,7 +91,7 @@ namespace Telegram.Library
 
         private string BuildUrl(string BaseRequestUrl, string methodName)
         {
-            string url = string.Concat(_bot.BaseRequestUrl, methodName);
+            string url = string.Concat(BaseRequestUrl, methodName);
             if (!UriValidator.IsValidUri(url)) throw new UriFormatException(url);
 
             return url;

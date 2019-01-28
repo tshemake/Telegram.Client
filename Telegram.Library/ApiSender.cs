@@ -24,13 +24,13 @@ namespace Telegram.Library
             _httpClient = httpClient ?? HttpClientHelperFactory.Instance.CreateHttpClientHelper().CreateHttpClient();
         }
 
-        public async Task SendAsync<TResponse>(ApiRequest<TResponse> request, CancellationToken cancellationToken)
+        public async Task SendAsync<TResponse>(ApiRequest<TResponse> request, Action<TResponse> callback = null, Action<string, Exception> errorCallback = null, CancellationToken cancellationToken = default(CancellationToken))
         {
             try
             {
                 var httpRequest = request.OnSend();
-                var httpResponse = await PollyHttpClient.PostAsync(this._httpClient, httpRequest, cancellationToken)
-                    .ConfigureAwait(continueOnCapturedContext: false);
+                var httpResponse = await PollyHttpClient.PostAsync(_httpClient, httpRequest, cancellationToken)
+                                       .ConfigureAwait(continueOnCapturedContext: false);
 
                 if (!httpResponse.StatusCode.IsSuccessfulRequest())
                 {
@@ -41,14 +41,21 @@ namespace Telegram.Library
                 cancellationToken.ThrowIfCancellationRequested();
 
                 await ProcessResponseAsync(request, httpResponse).ConfigureAwait(false);
+
+                callback?.Invoke(request.Result);
             }
             catch (TaskCanceledException ex)
             {
+                errorCallback?.Invoke("Request was canceled", ex);
                 if (cancellationToken.IsCancellationRequested)
                     throw;
-
                 throw new ApiRequestException("Превышение таймаута", 408, ex);
-            };
+            }
+            catch (ApiResponseException ex)
+            {
+                errorCallback?.Invoke("Request failed", ex);
+                throw;
+            }
         }
 
         private async Task ProcessResponseAsync<TResponse>(ApiRequest<TResponse> request, HttpResponseMessage response)
