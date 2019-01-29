@@ -32,10 +32,10 @@ namespace Telegram.Library
                 var httpResponse = await PollyHttpClient.PostAsync(_httpClient, httpRequest, cancellationToken)
                                        .ConfigureAwait(continueOnCapturedContext: false);
 
-                if (!httpResponse.StatusCode.IsSuccessfulRequest())
+                if (!httpResponse.IsSuccessStatusCode)
                 {
                     var error = await httpResponse.Content.ReadAsStringAsync();
-                    throw new ApiResponseException(error, httpResponse.StatusCode);
+                    httpResponse.EnsureSuccessStatusCode();
                 }
 
                 cancellationToken.ThrowIfCancellationRequested();
@@ -51,7 +51,8 @@ namespace Telegram.Library
                     throw;
                 throw new ApiRequestException("Превышение таймаута", 408, ex);
             }
-            catch (ApiResponseException ex)
+            catch (Exception ex) when
+                (ex is HttpRequestException || ex is ApiResponseException)
             {
                 errorCallback?.Invoke("Request failed", ex);
                 throw;

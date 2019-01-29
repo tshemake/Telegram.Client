@@ -9,9 +9,14 @@ namespace Telegram.Library
     internal abstract class HttpClientHelper
     {
         private readonly HttpClientHandler _httpClientHander;
+        public const int MaxConnectionsPerServer = int.MaxValue;
 
         protected HttpClientHelper()
         {
+            _httpClientHander = new HttpClientHandler
+            {
+                MaxConnectionsPerServer = MaxConnectionsPerServer
+            };
         }
 
         protected HttpClientHelper(IWebProxy webProxy)
@@ -19,7 +24,8 @@ namespace Telegram.Library
             _httpClientHander = new HttpClientHandler
             {
                 Proxy = webProxy,
-                UseProxy = true
+                UseProxy = true,
+                MaxConnectionsPerServer = MaxConnectionsPerServer
             };
         }
 
